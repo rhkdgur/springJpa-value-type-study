@@ -1,13 +1,17 @@
 package hellojpa;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id; 
+import javax.persistence.Id;
+import javax.persistence.OneToMany; 
 @Entity
 public class Member{
 	
@@ -25,21 +29,32 @@ public class Member{
 	private Address address;
 	
 	//같은 Address의 타입의 객체를 테이블에 새로운 컬럼으로 선언할 경우
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name="city",column=@Column(name="WORK_CITY")),
-		@AttributeOverride(name="street",column=@Column(name="WORK_STREET")),
-		@AttributeOverride(name="zipcode",column=@Column(name="WORK_ZIPCODE"))
-	})
-	private Address workAddress;
+//	@Embedded
+//	@AttributeOverrides({
+//		@AttributeOverride(name="city",column=@Column(name="WORK_CITY")),
+//		@AttributeOverride(name="street",column=@Column(name="WORK_STREET")),
+//		@AttributeOverride(name="zipcode",column=@Column(name="WORK_ZIPCODE"))
+//	})
+//	private Address workAddress;
 	
-	public Address getWorkAddress() {
-		return workAddress;
+	@OneToMany(mappedBy = "member")
+	private List<Order> orderList = new ArrayList<Order>();
+	
+	public List<Order> getOrderList() {
+		return orderList;
 	}
 
-	public void setWorkAddress(Address workAddress) {
-		this.workAddress = workAddress;
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
+
+//	public Address getWorkAddress() {
+//		return workAddress;
+//	}
+//
+//	public void setWorkAddress(Address workAddress) {
+//		this.workAddress = workAddress;
+//	}
 
 	public Period getPeriod() {
 		return period;
